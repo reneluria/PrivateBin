@@ -33,7 +33,7 @@ if ($SYNTAXHIGHLIGHTING) :
 ?>
 		<link type="text/css" rel="stylesheet" href="css/prettify/prettify.css?<?php echo rawurlencode($VERSION); ?>" />
 <?php
-    if (strlen($SYNTAXHIGHLIGHTINGTHEME)) :
+    if (!is_null($SYNTAXHIGHLIGHTINGTHEME) && strlen($SYNTAXHIGHLIGHTINGTHEME)) :
 ?>
 		<link type="text/css" rel="stylesheet" href="css/prettify/<?php echo rawurlencode($SYNTAXHIGHLIGHTINGTHEME); ?>.css?<?php echo rawurlencode($VERSION); ?>" />
 <?php
@@ -421,7 +421,7 @@ endif;
 				</ul>
 				<ul class="nav navbar-nav pull-right">
 <?php
-if (strlen($LANGUAGESELECTION)) :
+if (!is_null($LANGUAGESELECTION) && strlen($LANGUAGESELECTION)) :
 ?>
 					<li id="language" class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-flag" aria-hidden="true"></span> <?php echo $LANGUAGES[$LANGUAGESELECTION][0]; ?> <span class="caret"></span></a>
@@ -452,7 +452,7 @@ endif;
 		<main>
 			<section class="container">
 <?php
-if (strlen($NOTICE)) :
+if (!is_null($NOTICE) && strlen($NOTICE)) :
 ?>
 				<div role="alert" class="alert alert-info">
 					<span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>
@@ -518,7 +518,7 @@ endif;
 						<div id="pastelink"></div>
 					</div>
 <?php
-if (strlen($URLSHORTENER)) :
+if (!is_null($URLSHORTENER) && strlen($URLSHORTENER)) :
 ?>
 					<p>
 						<button id="shortenbutton" data-shortener="<?php echo I18n::encode($URLSHORTENER); ?>" type="button" class="btn btn-<?php echo $isDark ? 'warning' : 'primary'; ?> btn-block">
