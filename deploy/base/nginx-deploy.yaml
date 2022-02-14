@@ -1,0 +1,63 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: pb-nginx
+  name: pb-nginx
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: pb-nginx
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: pb-nginx
+    spec:
+      containers:
+        - name: pb-nginx
+          image: pb-nginx
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 80
+          lifecycle:
+            preStop:
+              exec:
+                command: [
+                  # Gracefully shutdown nginx
+                  "/usr/sbin/nginx", "-s", "quit"
+                ]
+          volumeMounts:
+            - name: nginx-config
+              mountPath: "/etc/nginx/conf.d"
+          livenessProbe:
+            failureThreshold: 5
+            httpGet:
+              path: /healthz
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /healthz
+              port: 80
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 90Mi
+      volumes:
+        - name: nginx-config
+          configMap:
+            name: nginx-config

@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - ../../base
+  - ingress.yaml
+images:
+  - name: pb-fpm
+    newTag: dev
+  - name: pb-nginx
+    newTag: dev
+replicas:
+  - name: pb-nginx
+    count: 1

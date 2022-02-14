@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: pb-fpm
+  name: pb-fpm
+spec:
+  ports:
+    - name: pb-fpm
+      port: 9000
+      protocol: TCP
+      targetPort: pb-fpm
+  selector:
+    app: pb-fpm
